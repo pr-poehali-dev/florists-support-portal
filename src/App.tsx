@@ -1,28 +1,44 @@
-
+import { useState } from 'react';
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import HomePage from '@/pages/HomePage';
+import CatalogPage from '@/pages/CatalogPage';
+import AboutPage from '@/pages/AboutPage';
+import ContactsPage from '@/pages/ContactsPage';
+import FaqPage from '@/pages/FaqPage';
+import ChatPage from '@/pages/ChatPage';
 
-const queryClient = new QueryClient();
+type Page = 'home' | 'catalog' | 'about' | 'contacts' | 'faq' | 'chat';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => {
+  const [page, setPage] = useState<Page>('home');
+
+  const navigate = (p: string) => {
+    setPage(p as Page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const showFooter = page !== 'chat';
+
+  return (
     <TooltipProvider>
       <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <div className="min-h-screen bg-background">
+        <Header activePage={page} onNavigate={navigate} />
+        <main key={page} className="animate-fade-in">
+          {page === 'home' && <HomePage onNavigate={navigate} />}
+          {page === 'catalog' && <CatalogPage />}
+          {page === 'about' && <AboutPage />}
+          {page === 'contacts' && <ContactsPage />}
+          {page === 'faq' && <FaqPage />}
+          {page === 'chat' && <ChatPage />}
+        </main>
+        {showFooter && <Footer onNavigate={navigate} />}
+      </div>
     </TooltipProvider>
-  </QueryClientProvider>
-);
+  );
+};
 
 export default App;
