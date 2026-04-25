@@ -9,8 +9,9 @@ import AboutPage from '@/pages/AboutPage';
 import ContactsPage from '@/pages/ContactsPage';
 import FaqPage from '@/pages/FaqPage';
 import ChatPage from '@/pages/ChatPage';
+import AdminPage from '@/pages/AdminPage';
 
-type Page = 'home' | 'catalog' | 'about' | 'contacts' | 'faq' | 'chat';
+type Page = 'home' | 'catalog' | 'about' | 'contacts' | 'faq' | 'chat' | 'admin';
 
 const App = () => {
   const [page, setPage] = useState<Page>('home');
@@ -19,6 +20,15 @@ const App = () => {
     setPage(p as Page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (page === 'admin') {
+    return (
+      <TooltipProvider>
+        <Toaster />
+        <AdminPage onExit={() => setPage('home')} />
+      </TooltipProvider>
+    );
+  }
 
   const showFooter = page !== 'chat';
 

@@ -47,7 +47,15 @@ export default function Footer({ onNavigate }: FooterProps) {
 
       <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-border flex justify-between items-center">
         <span className="font-body text-xs text-muted-foreground">© 2024 Флора. Все права защищены.</span>
-        <span className="font-body text-xs text-muted-foreground">Работаем ежедневно 9:00–21:00</span>
+        <div className="flex items-center gap-4">
+          <span className="font-body text-xs text-muted-foreground">Работаем ежедневно 9:00–21:00</span>
+          <button
+            onClick={() => onNavigate('admin')}
+            className="font-body text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+          >
+            Для сотрудников
+          </button>
+        </div>
       </div>
     </footer>
   );
